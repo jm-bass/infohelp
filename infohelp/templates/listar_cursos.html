@@ -55,11 +55,19 @@
     </section>
     {% endif %}
 
-    <h1>
-        Aperta
-        <a href="{% url 'criar_curso_professor' %}">Aqui para criar</a>
-        <a href="{% url 'listar_cursos_professor' %}">Aqui para ver quais tem</a>
-    </h1>
+
+    <center>
+    <div style="font-family: 'Courier New', Courier, monospace;
+    margin-block: 20px;
+    font-size: 1rem;
+    color: black;">
+        <h2>
+            Aperta
+            <a href="{% url 'criar_curso_professor' %}" style="color: green;">Aqui para criar</a>
+            <a href="{% url 'listar_cursos_professor' %}" style="color: blue;">Aqui para ver quais tem</a>
+        </h2>
+    </div>
+    </center>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
