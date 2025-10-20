@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+# 2 linhas abaixo utilizadas na criação do perfil do superadmin por terminal
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 class User(AbstractUser):
     def __str__(self):
         return self.username
@@ -16,3 +20,12 @@ class Perfil(models.Model):
 
     def __str__(self):
         return self.usuario.username
+
+@receiver(post_save, sender=User)
+def criar_perfil_para_superuser(sender, instance, created, **kwargs):
+    """
+    Ao criar um superuser (via createsuperuser ou outro lugar),
+    garante a criação do Perfil relacionado (campo 'usuario').
+    """
+    if created and getattr(instance, "is_superuser", False):
+        Perfil.objects.get_or_create(usuario=instance)
