@@ -7,7 +7,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from django.contrib import messages
 
-from .models import Perfil  # Importe o modelo Perfil
+from django.contrib.auth.models import Group
+
+from .models import Perfil, User  # Importe o modelo Perfil (USER)
 from django.contrib.auth.decorators import login_required, permission_required
 
 from django.contrib.auth import update_session_auth_hash
@@ -131,3 +133,21 @@ def gerenciar_solicitacoes_professor(request):
             perfil.save()
 
     return render(request, 'gerenciar_solicitacoes_professor.html', {'solicitacoes': solicitacoes})
+
+
+@login_required
+@permission_required('usuarios.acessar_area_professor', raise_exception=False)  # exemplo de proteção
+def area_professor(request):
+    # view protegida por permissão
+    return render(request, "area_professor.html")
+
+
+def aprovar_usuario_como_professor(request, usuario_id):
+    # exemplo: aprovar (ou em sua lógica, isso é onde você aceita a solicitacao_professor)
+    usuario = get_object_or_404(User, pk=usuario_id)
+    grupo, _ = Group.objects.get_or_create(name='professores')
+    usuario.groups.add(grupo)
+    # também pode atribuir perm explicitamente:
+    # perm = Permission.objects.get(codename='acessar_area_professor', content_type__app_label='usuarios')
+    # usuario.user_permissions.add(perm)
+    return redirect('alguma_view')

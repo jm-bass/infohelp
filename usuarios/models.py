@@ -21,6 +21,11 @@ class Perfil(models.Model):
     def __str__(self):
         return self.usuario.username
 
+    class Meta:
+        permissions = [
+            ("acessar_area_professor", "Pode acessar a área de professor"),
+        ]
+
 @receiver(post_save, sender=User)
 def criar_perfil_para_superuser(sender, instance, created, **kwargs):
     """
