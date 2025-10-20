@@ -113,3 +113,9 @@ class AlterarSenhaForm(PasswordChangeForm):
         label="Senha atual:",
         widget=forms.PasswordInput(attrs={'class': 'form-control'})
     )
+
+
+class SolicitacaoProfessorForm(forms.ModelForm):
+    class Meta:
+        model = Perfil
+        fields = []  # Nenhum campo será exibido, apenas o botão de solicitação

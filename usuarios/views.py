@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import CadastroForm, LoginForm, EditarPerfilForm
+from .forms import CadastroForm, LoginForm, EditarPerfilForm, SolicitacaoProfessorForm
+
+from django.contrib.admin.views.decorators import staff_member_required
 
 from django.contrib import messages
 
@@ -92,3 +94,40 @@ def alterar_senha(request):
         form = PasswordChangeForm(request.user)
     
     return render(request, 'alterar_senha.html', {'form': form})
+
+
+
+@login_required
+def solicitar_permissao_professor(request):
+    perfil = request.user.perfil
+    if request.method == 'POST':
+        form = SolicitacaoProfessorForm(request.POST, instance=perfil)
+        if form.is_valid():
+            perfil.solicitacao_professor = True
+            perfil.save()
+            messages.success(request, 'Sua solicitação foi enviada com sucesso!')
+            return redirect('inicio')  # Redirecionar para a página inicial ou outra página
+    else:
+        form = SolicitacaoProfessorForm(instance=perfil)
+    return render(request, 'solicitar_permissao_professor.html', {'form': form})
+
+
+@staff_member_required
+def gerenciar_solicitacoes_professor(request):
+    solicitacoes = Perfil.objects.filter(solicitacao_professor=True)
+
+    if request.method == 'POST':
+        usuario_id = request.POST.get('usuario_id')
+        acao = request.POST.get('acao')
+        perfil = Perfil.objects.get(usuario_id=usuario_id)
+
+        if acao == 'aprovar':
+            perfil.usuario.is_staff = True  # Concede permissão de professor
+            perfil.solicitacao_professor = False
+            perfil.usuario.save()
+            perfil.save()
+        elif acao == 'rejeitar':
+            perfil.solicitacao_professor = False
+            perfil.save()
+
+    return render(request, 'gerenciar_solicitacoes_professor.html', {'solicitacoes': solicitacoes})

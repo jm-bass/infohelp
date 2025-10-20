@@ -12,6 +12,7 @@ class Perfil(models.Model):
     data_nascimento = models.DateField(null=True)
     telefone = models.CharField(max_length=20, null=True)
     avatar = models.ImageField(null=True, blank=True)
+    solicitacao_professor = models.BooleanField(default=False)  # Novo campo
 
     def __str__(self):
         return self.usuario.username
