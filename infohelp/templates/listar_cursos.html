@@ -45,7 +45,7 @@
         {% include 'partials/paginacao.html' with cursos=cursos %}
     </div>
 
-    <!-- Botão de criar curso (se o usuário tiver permissão) -->
+    <!-- Botão de criar curso (se o usuário tiver permissão) 
     {% if request.user.is_authenticated and request.user.is_staff %}
     <section>
         <div class="box_criar-curso container">
@@ -54,20 +54,19 @@
         </div>
     </section>
     {% endif %}
+    -->
 
+    {% if request.user.is_authenticated and request.user.is_staff %}
+    <section>
+        <div class="box_criar-curso container">
+            <p>Adicione novos cursos à sua lista</p>
+            <a href="{% url 'criar_curso_professor' %}" class="btn-criar-curso">Criar novo curso</a> <br><br>
+            <a href="{% url 'listar_cursos_professor' %}"><p style="margin-bottom: 0zpx">Aqui para ver quais você tem</p></a>
+        </div>
+    </section>
+    {% endif %}
 
-    <center>
-    <div style="font-family: 'Courier New', Courier, monospace;
-    margin-block: 20px;
-    font-size: 1rem;
-    color: black;">
-        <h2>
-            Aperta
-            <a href="{% url 'criar_curso_professor' %}" style="color: green;">Aqui para criar</a>
-            <a href="{% url 'listar_cursos_professor' %}" style="color: blue;">Aqui para ver quais tem</a>
-        </h2>
-    </div>
-    </center>
+   
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>

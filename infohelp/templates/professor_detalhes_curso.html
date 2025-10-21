@@ -20,11 +20,6 @@
 {% endif %}
 
 <section class="section-detalhes_curso container">
-    <div class="mb-3">
-        <a class="btn btn-primary" href="{% url 'criar_aula_professor' curso.id %}">
-            ➕ Criar nova aula
-        </a>
-    </div>
 
     {% if aulas %}
         <div class="list-group">
@@ -58,6 +53,16 @@
         </div>
     {% else %}
         <p>Nenhuma aula cadastrada ainda.</p>
+    {% endif %}
+
+
+    {% if request.user.is_authenticated and request.user.is_staff %}
+    <section>
+        <div class="box_criar-curso container">
+            <br>
+            <a href="{% url 'criar_aula_professor' curso.id %}" class="btn-criar-curso">Adicionar nova aula ao curso</a> <br><br>
+        </div>
+    </section>
     {% endif %}
 </section>
 {% endblock content %}

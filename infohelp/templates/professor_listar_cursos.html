@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-<center>
-
-<h1>Meus Cursos</h1>
+<section class="titulos-paginas container">
+    <div class="titulo-pag">
+        <h1 class="titulo-pag">Meus Cursos</h1>
+    </div>
+</section>
 
 {% load static %}
 
@@ -39,7 +41,14 @@
    
 {% endif %}
 
-<a href="{% url 'criar_curso_professor' %}">Criar novo curso</a>
-{% endblock %}
+    {% if request.user.is_authenticated and request.user.is_staff %}
+    <section>
+        <div class="box_criar-curso container">
+            <p>Adicione novos cursos à sua lista</p>
+            <a href="{% url 'criar_curso_professor' %}" class="btn-criar-curso">Criar novo curso</a> <br><br>
+        </div>
+    </section>
+    {% endif %}
 
-</center>
+
+{% endblock %}
