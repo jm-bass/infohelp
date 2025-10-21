@@ -46,7 +46,7 @@
     </div>
 
     <!-- Botão de criar curso (se o usuário tiver permissão) -->
-    {% if request.user.is_authenticated and perms.infohelp.criar_curso %}
+    {% if request.user.is_authenticated and request.user.is_staff %}
     <section>
         <div class="box_criar-curso container">
             <p>Adicione novos cursos à sua lista</p>
