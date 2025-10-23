@@ -27,7 +27,9 @@
                 <div class="list-group-item">
                     <h5>{{ aula.titulo }}</h5>
                     <p>{{ aula.descricao }}</p>
+                    <img src="{{ aula.capa.url }}" alt="">
 
+                    <!--
                     <div class="mb-2">
                         {% if aula.video %}
                             🎬 <a href="{{ aula.video.url }}" target="_blank">Vídeo</a><br>
@@ -39,6 +41,8 @@
                             📊 <a href="{{ aula.ppt.url }}" target="_blank">Apresentação</a><br>
                         {% endif %}
                     </div>
+                    -->
+
 
                     <div>
                         <a href="{% url 'editar_aula_professor' curso.id aula.id %}" class="btn btn-warning btn-sm">
